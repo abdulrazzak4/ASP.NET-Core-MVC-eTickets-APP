@@ -5,6 +5,7 @@ using webApp.Data;
 using webApp.Data.Cart;
 using webApp.Data.Services;
 using webApp.Models;
+using wepApp.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,12 +26,12 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped(sc => ShoppingCart.GetShoppingCart(sc));
 
 //Authentication And Authorization
-// builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
-// builder.Services.AddMemoryCache();
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddMemoryCache();
 builder.Services.AddSession();
-//builder.Services.AddAuthentication(options => {
-//     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-// });
+builder.Services.AddAuthentication(options => {
+     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+ });
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -54,7 +55,7 @@ app.UseRouting();
 app.UseSession();
 
 //Authentication And Authorization
-//app.UseAuthentication();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
@@ -63,5 +64,5 @@ app.MapControllerRoute(
 
 //Sead database
 AppDbInitializer.Seed(app);
-// AppDbInitializer.SeedUserAndRoleAsync(app).Wait();
+AppDbInitializer.SeedUserAndRoleAsync(app).Wait();
 app.Run();
