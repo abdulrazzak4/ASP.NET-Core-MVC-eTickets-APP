@@ -30,7 +30,7 @@ namespace webApp.Data.Services
         public async Task StoreOrderAsync(List<ShoppingCartItem> items, string userId, string userEmailAddress)
         {
             var order = new Order(){
-                UserId = userEmailAddress,
+                UserId = userId,
                 Email = userEmailAddress
             };
             await _context.Orders.AddAsync(order);
